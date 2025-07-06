@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# dotenv env files
+.env
+.env.*.local
+
+# OS & editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build outputs (nếu có build folder)
+dist/
+build/
+tmp/
+
+# PM2 or other runtime files
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage results (nếu dùng test)
+coverage/
+
+# Database (tuỳ project)
+*.sqlite
+*.db
+*.dump
+
+# Misc
+*.tgz
+*.bak
+*.swp
