@@ -52,11 +52,19 @@ async function getAllBuildings() {
   const { rows } = await pool.query(query);
   return rows;
 }
+async function deleteBuildingbyID(id) {
+  const query = 'DELETE FROM buildings WHERE id = $1 RETURNING *;';
+  const { rows, rowCount } = await pool.query(query, [id]);
+  console.log("[deleteBuildingbyID] rowCount:", rowCount, "rows:", rows);
+  return rows[0]; // null nếu không xoá gì cả
+}
+
+
 async function getBuildingById(id) {
-  const query = 'SELECT * FROM buildings WHERE id = $1;';           
+  const query = 'SELECT * FROM buildings WHERE id = $1;';
   const { rows } = await pool.query
-(query, [id]);
-  return rows[0]; 
+    (query, [id]);
+  return rows[0];
 }
 async function updateBuilding(id, data) {
   const keys = Object.keys(data);
@@ -82,5 +90,6 @@ module.exports = {
   findByExactAddress,
   getAllBuildings,
   getBuildingById,
+  deleteBuildingbyID,
   updateBuilding
 };

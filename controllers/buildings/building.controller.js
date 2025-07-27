@@ -44,6 +44,23 @@ exports.getBuildingById = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+exports.deleteBuilding = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    
+    const building = await buildingService.deleteBuildingbyID(id);
+
+    if (!building) {
+      return res.status(404).json({ error: 'Building not found' });
+    }
+    
+    return res.status(200).json({ message: 'Building retrieved successfully', data: building });
+  } catch (error) {
+    console.error('Error retrieving building:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 exports.updateBuilding = async (req, res) => {
   try {
     const buildingId = parseInt(req.params.id);

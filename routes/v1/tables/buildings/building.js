@@ -83,8 +83,9 @@ const { verifyToken } = require('../../../../middleware/auth');
  */
 
 router.post('/create', verifyToken, buildingController.createBuilding);
-router.put('/:id', verifyToken, buildingController.updateBuilding);
+router.put('/:id/PUT', verifyToken, buildingController.updateBuilding);
 router.get('/', buildingController.getAllBuildings);
-router.get('/:id', buildingController.getBuildingById);
+router.get('/:id/GET', buildingController.getBuildingById);
+router.delete('/:id/DELETE', buildingController.deleteBuilding); // Assuming you have a delete function in the controller
 
 module.exports = router;
