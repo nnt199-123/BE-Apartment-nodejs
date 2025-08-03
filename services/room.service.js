@@ -1,26 +1,29 @@
-  const { pool } = require('../config/database/postgresql');
+const { pool } = require('../config/database/postgresql');
 
 async function createRoom(data) {
+  const now = new Date();
+
   const query = `
     INSERT INTO rooms (
-      name, price, deposit, size, max_tenants,
-      building_id, floors, owner_id,
-      active, created_at, updated_at
+      name, floors, building_id,
+      price, deposit, size, max_tenants,
+      owner_id, active, created_at, updated_at
     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
     RETURNING *;
   `;
+
   const values = [
     data.name,
-    data.price,
-    data.deposit,
-    data.size,
-    data.max_tenants,
+    data.floor || 1,
     data.building_id,
-    data.floors,
+    data.price || 0,
+    data.deposit || 0,
+    data.size || 0,
+    data.max_tenants || 1,
     data.owner_id,
-    data.active,
-    data.created_at,
-    data.updated_at
+    data.active ?? true,
+    now,
+    now
   ];
 
   const { rows } = await pool.query(query, values);
@@ -36,16 +39,21 @@ async function findByNameInBuilding(name, buildingId) {
   const { rows } = await pool.query(query, [name, buildingId]);
   return rows[0];
 }
-           
+
 async function getAllRooms() {
   const query = 'SELECT * FROM rooms;';
   const { rows } = await pool.query(query);
-    return rows;    
+  return rows;
 }
 async function getRoomById(id) {
   const query = 'SELECT * FROM rooms WHERE id = $1;';
   const { rows } = await pool.query(query, [id]);
-  return rows[0];   
+  return rows[0];
+}
+async function deleteRoomById(id) {
+  const query = 'DELETE FROM rooms WHERE id = $1 RETURNING *';
+  const { rows } = await pool.query(query, [id]);
+  return rows[0];
 }
 async function updateRoom(id, data) {
   const query = `
@@ -79,11 +87,12 @@ async function updateRoom(id, data) {
   const { rows } = await pool.query(query, values);
   return rows[0];
 }
-  
+
 module.exports = {
   createRoom,
   getAllRooms,
   getRoomById,
+  deleteRoomById,
   findByNameInBuilding,
   updateRoom
 };

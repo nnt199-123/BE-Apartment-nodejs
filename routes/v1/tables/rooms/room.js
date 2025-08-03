@@ -158,11 +158,34 @@ const { verifyToken } = require('../../../../middleware/auth');
  *         description: Cập nhật thành công
  */
 
+/**
+ * @swagger
+ * /rooms/{id}:
+ *   delete:
+ *     summary: Xóa phòng theo ID
+ *     tags: [Rooms]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID của phòng cần xóa
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Xóa thành công
+ *       404:
+ *         description: Không tìm thấy phòng
+ */
+
 router.post('/create', verifyToken, roomController.createRoom);
 router.put('/:id/update', verifyToken, roomController.updateRoom);
-router.post('/create-many', verifyToken, roomController.createManyRooms);
+router.post('/create-many', verifyToken, roomController.createManyRoomsByFloor);
 router.put('/update-many', verifyToken, roomController.updateRooms);
 router.get('/', roomController.getAllRooms);
 router.get('/:id', roomController.getRoomById);
+router.delete('/:id', verifyToken, roomController.deleteRoomById);
 
 module.exports = router;
