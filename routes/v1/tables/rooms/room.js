@@ -182,7 +182,7 @@ const { verifyToken } = require('../../../../middleware/auth');
 
 router.post('/create', verifyToken, roomController.createRoom);
 router.put('/:id/update', verifyToken, roomController.updateRoom);
-router.post('/create-many', verifyToken, roomController.createManyRoomsByFloor);
+// router.post('/create-many', verifyToken, roomController.createManyRoomsByFloor);
 router.put('/update-many', verifyToken, roomController.updateRooms);
 router.get('/', roomController.getAllRooms);
 router.get('/:id', roomController.getRoomById);

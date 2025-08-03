@@ -191,3 +191,18 @@ exports.getRoomById = async (req, res) => {
     return res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
   }
 };
+exports.deleteRoomById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const room = await roomService.deleteRoomById(id);
+
+    if (!room) {
+      return res.status(404).json({ error: 'Phòng không tồn tại' });
+    }
+
+    return res.status(200).json({ data: room });
+  } catch (error) {
+    console.error('lỗi lấy phòng theo ID:', error);
+    return res.status(500).json({ error: 'Lỗi máy chủ nội bộ' });
+  }
+};
